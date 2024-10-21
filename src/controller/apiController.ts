@@ -6,7 +6,7 @@ export const verificar = (req: any, res: {
       const token = req.query["hub.verify_token"];
       const challenge = req.query["hub.challenge"];
   
-      console.log(challenge);
+      res.send(challenge);
     } catch (error) {
       console.error("Error en la verificación:", error);
       res.status(400).send("Error en la verificación");
@@ -18,7 +18,7 @@ export const verificar = (req: any, res: {
 }) => {
     try {
       // Loguear el payload completo recibido de WhatsApp
-      console.log("Payload recibido:", JSON.stringify(req.body, null, 2));
+      console.log("Payload completo recibido:", JSON.stringify(req.body, null, 2));
   
       // Extraer información del mensaje
       const { entry } = req.body;
@@ -36,8 +36,14 @@ export const verificar = (req: any, res: {
   
             // Loguear el mensaje y el remitente
             console.log(`Mensaje recibido de ${sender}: ${text}`);
+          } else {
+            console.log("No se encontraron mensajes en el payload.");
           }
+        } else {
+          console.log("No se encontraron cambios en el payload.");
         }
+      } else {
+        console.log("No se encontró información de entrada en el payload.");
       }
   
       // Responder con 200 OK para confirmar la recepción

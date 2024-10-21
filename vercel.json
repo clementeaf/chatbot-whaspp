@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "src/index.ts",
+      "src": "dist/index.js",
       "use": "@vercel/node"
     }
   ],
@@ -10,12 +10,12 @@
     {
       "src": "/verificar",
       "methods": ["GET"],
-      "dest": "src/index.ts"
+      "dest": "dist/index.js"
     },
     {
       "src": "/recibir",
       "methods": ["POST"],
-      "dest": "src/index.ts"
+      "dest": "dist/index.js"
     }
   ]
 }

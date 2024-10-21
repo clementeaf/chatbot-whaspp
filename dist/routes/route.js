@@ -7,6 +7,6 @@ const express_1 = __importDefault(require("express"));
 const apiController_1 = require("../controller/apiController");
 const router = express_1.default.Router();
 // Definición de rutas
-router.get('/', apiController_1.verificar);
-router.post('/', apiController_1.recibir);
+router.get('/verificar', apiController_1.verificar); // Solo acepta GET para verificación
+router.post('/recibir', apiController_1.recibir); // Acepta POST para recibir mensajes
 exports.default = router;
