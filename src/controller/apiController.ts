@@ -6,14 +6,7 @@ export const verificar = (req: any, res: {
       const token = req.query["hub.verify_token"];
       const challenge = req.query["hub.challenge"];
   
-      console.log("Token recibido:", token);
-      console.log("Challenge recibido:", challenge);
-  
-      if (token === tokenClemente) {
-        res.send(challenge);
-      } else {
-        res.status(403).send("Token inválido");
-      }
+      console.log(challenge);
     } catch (error) {
       console.error("Error en la verificación:", error);
       res.status(400).send("Error en la verificación");
