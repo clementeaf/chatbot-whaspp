@@ -5,5 +5,17 @@
       "src": "src/index.ts",
       "use": "@vercel/node"
     }
+  ],
+  "routes": [
+    {
+      "src": "/verificar",
+      "methods": ["GET"],
+      "dest": "src/index.ts"
+    },
+    {
+      "src": "/recibir",
+      "methods": ["POST"],
+      "dest": "src/index.ts"
+    }
   ]
 }
