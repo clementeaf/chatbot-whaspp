@@ -7,7 +7,7 @@ export const verificar = (req: any, res: {
         const chanllenge = req.query["hub.challenge"];
 
         res.send(chanllenge);
-        
+
         console.log(req);
     } catch (error) {
         res.status(400).send();
@@ -15,5 +15,5 @@ export const verificar = (req: any, res: {
 }
 
 export const recibir = (req: any, res: { send: (arg0: string) => void }) => {
-    res.send('Recibido');
+    res.send('Recibido clemente');
 }
