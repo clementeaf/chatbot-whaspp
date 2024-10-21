@@ -20,34 +20,10 @@ export const verificar = (req: any, res: {
       // Loguear el payload completo recibido de WhatsApp
       console.log("Payload completo recibido:", JSON.stringify(req.body, null, 2));
   
-      // Extraer información del mensaje
-      const { entry } = req.body;
-  
-      // Validar si hay datos en el payload
-      if (entry && entry.length > 0) {
-        const changes = entry[0].changes;
-  
-        if (changes && changes.length > 0) {
-          const message = changes[0].value.messages;
-  
-          if (message && message.length > 0) {
-            const text = message[0].text?.body; // Obtener el contenido del mensaje de texto
-            const sender = message[0].from; // Obtener el ID del remitente
-  
-            // Loguear el mensaje y el remitente
-            console.log(`Mensaje recibido de ${sender}: ${text}`);
-          } else {
-            console.log("No se encontraron mensajes en el payload.");
-          }
-        } else {
-          console.log("No se encontraron cambios en el payload.");
-        }
-      } else {
-        console.log("No se encontró información de entrada en el payload.");
-      }
+      console.log(req);
   
       // Responder con 200 OK para confirmar la recepción
-      res.send('Mensaje recibido y procesado.');
+      res.send(req.body);
     } catch (error) {
       console.error("Error al procesar el mensaje:", error);
       res.status(400).send("Error al procesar el mensaje.");
