@@ -8,7 +8,11 @@
   ],
   "routes": [
     {
-      "src": "/",
+      "src": "/verificar",
+      "dest": "src/index.ts"
+    },
+    {
+      "src": "/recibir",
       "dest": "src/index.ts"
     }
   ]
