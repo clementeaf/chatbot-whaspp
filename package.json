@@ -11,12 +11,16 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js"
+    "deploy": "npm run build && serverless deploy",
+    "offline": "npm run build && serverless offline"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.21.1"
+    "@types/aws-lambda": "^8.10.92",
+    "@types/node": "^18.7.18",
+    "express": "^4.21.1",
+    "serverless-offline": "^14.3.4"
   }
 }

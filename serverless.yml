@@ -1,0 +1,23 @@
+service: whatsapp-bot
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: us-east-1
+  environment:
+    VERIFY_TOKEN: "clemente"
+    WHATSAPP_TOKEN: "EAA172rea1mEBO9V1XUP2FZCioUrFs6clA6E5LynkEXAqTwVKpchQmm6sKMjGvH2XLiERxVw1lh8bwJAXe2f7k0ZANrAtfPJwQkGZAuZBS1FOvd8MV0IWSgTUUPPkyItJTunhmZAaVOxJVozhq1PyOZCLZBrwZBl5g2OvRiikggBgX9Qjrs1n4lw2tZCYQajRU2wrJIfzqZAU4JwUkBvZBDlQtDPHvD8fMFtiE0QHYoZD"
+
+functions:
+  webhook:
+    handler: dist/handler.handler
+    events:
+      - http:
+          path: /webhook
+          method: ANY   # Cambiado a ANY para aceptar GET y POST
+          cors: true
+
+plugins:
+  - serverless-offline
