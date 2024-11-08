@@ -162,7 +162,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/whatsapp-bot/dev/1731090009879-2024-11-08T18:20:09.879Z/whatsapp-bot.zip"
+          "S3Key": "serverless/whatsapp-bot/dev/1731091974739-2024-11-08T18:52:54.739Z/whatsapp-bot.zip"
         },
         "Handler": "dist/handler.handler",
         "Runtime": "nodejs16.x",
@@ -186,14 +186,14 @@
         "WebhookLogGroup"
       ]
     },
-    "WebhookLambdaVersionYaaIYjAl6LQF3FQtI7HIvMtEeaE2BX6FzkBIRDg": {
+    "WebhookLambdaVersionIWBPhokx6beiBjkqGYR1ivBtcAlr2jj1HaWI6hICGE": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "WebhookLambdaFunction"
         },
-        "CodeSha256": "KQqGvzUIkc4RQZrPlOE1joHu06+QFgso1JJPAU3fxC0="
+        "CodeSha256": "e/pFn4PKHisZ1iq4sTbjml5dOM0iZ3JIDxsZzlThrdQ="
       }
     },
     "ApiGatewayRestApi": {
@@ -314,7 +314,7 @@
         "WebhookLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1731090006458": {
+    "ApiGatewayDeployment1731091970842": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -377,7 +377,7 @@
     "WebhookLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "WebhookLambdaVersionYaaIYjAl6LQF3FQtI7HIvMtEeaE2BX6FzkBIRDg"
+        "Ref": "WebhookLambdaVersionIWBPhokx6beiBjkqGYR1ivBtcAlr2jj1HaWI6hICGE"
       },
       "Export": {
         "Name": "sls-whatsapp-bot-dev-WebhookLambdaFunctionQualifiedArn"

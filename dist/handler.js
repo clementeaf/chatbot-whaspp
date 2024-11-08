@@ -60,13 +60,18 @@ const handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
                             if (message.type === "text") {
                                 const from = message.from;
                                 const messageBody = message.text.body.toLowerCase();
-                                // Lógica para responder a ciertos mensajes
+                                // Lógica de respuesta automatizada
                                 let replyMessage;
                                 if (messageBody.includes("hola")) {
                                     replyMessage = "¡Hola! ¿En qué puedo ayudarte?";
                                 }
                                 else if (messageBody.includes("menu")) {
                                     replyMessage = "Aquí está el menú:\n1. Opción 1\n2. Opción 2\n3. Opción 3";
+                                }
+                                else if (messageBody.includes("yo")) {
+                                    replyMessage = "Clases de lunes a viernes en nuestra sede: Los Pinos Ote 12.\n" +
+                                        "Lunes - Miércoles - Viernes de 19 a 20:30 hrs Jiujitstu (GI/Kimono)\n" +
+                                        "Martes - Jueves de 20 a 21:30 hrs Jiujitstu/Grappling (NO-GI)";
                                 }
                                 else {
                                     replyMessage = `Recibido: ${messageBody}`;
