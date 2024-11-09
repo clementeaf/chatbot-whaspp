@@ -162,7 +162,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/whatsapp-bot/dev/1731091974739-2024-11-08T18:52:54.739Z/whatsapp-bot.zip"
+          "S3Key": "serverless/whatsapp-bot/dev/1731098096654-2024-11-08T20:34:56.654Z/whatsapp-bot.zip"
         },
         "Handler": "dist/handler.handler",
         "Runtime": "nodejs16.x",
@@ -172,7 +172,7 @@
         "Environment": {
           "Variables": {
             "VERIFY_TOKEN": "clemente",
-            "WHATSAPP_TOKEN": "EAA172rea1mEBO9V1XUP2FZCioUrFs6clA6E5LynkEXAqTwVKpchQmm6sKMjGvH2XLiERxVw1lh8bwJAXe2f7k0ZANrAtfPJwQkGZAuZBS1FOvd8MV0IWSgTUUPPkyItJTunhmZAaVOxJVozhq1PyOZCLZBrwZBl5g2OvRiikggBgX9Qjrs1n4lw2tZCYQajRU2wrJIfzqZAU4JwUkBvZBDlQtDPHvD8fMFtiE0QHYoZD"
+            "WHATSAPP_TOKEN": "EAA172rea1mEBO0vr9nGljmPpkpinqm8K9pzbjhAZCezEX4XB09VUVzTE7grRSCTBCr2rNZBAc9LSkINIaTZAY1s2PZAQLpVywXz18PX07WK0sbn7XZAB7G4T9wqFy5Ee82F6MGGJxMJwPTn51XqOWYWcemj0CtT9jcEskwRkXe7dzZA4mNbVsrp0wyZC7trBdopmZCthbouv6Uq8pBpO0d6QidxGiZCtGAT0rNq0ZD"
           }
         },
         "Role": {
@@ -186,14 +186,14 @@
         "WebhookLogGroup"
       ]
     },
-    "WebhookLambdaVersionIWBPhokx6beiBjkqGYR1ivBtcAlr2jj1HaWI6hICGE": {
+    "WebhookLambdaVersionLDf4mjHcoZL68uK59KsGlU5kmUNbkMbRoC6KuJElkRs": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "WebhookLambdaFunction"
         },
-        "CodeSha256": "e/pFn4PKHisZ1iq4sTbjml5dOM0iZ3JIDxsZzlThrdQ="
+        "CodeSha256": "RI/M78JEnwalFRRJF9OWHHb0+pRFfscwjvfBsL2zk4I="
       }
     },
     "ApiGatewayRestApi": {
@@ -314,7 +314,7 @@
         "WebhookLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1731091970842": {
+    "ApiGatewayDeployment1731098092262": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -377,7 +377,7 @@
     "WebhookLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "WebhookLambdaVersionIWBPhokx6beiBjkqGYR1ivBtcAlr2jj1HaWI6hICGE"
+        "Ref": "WebhookLambdaVersionLDf4mjHcoZL68uK59KsGlU5kmUNbkMbRoC6KuJElkRs"
       },
       "Export": {
         "Name": "sls-whatsapp-bot-dev-WebhookLambdaFunctionQualifiedArn"

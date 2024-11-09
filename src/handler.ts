@@ -2,7 +2,7 @@ import https from "https";
 
 // Tokens de verificación y acceso
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN || "clemente";
-const WHATSAPP_TOKEN = process.env.WHATSAPP_TOKEN || "EAA172rea1mEBO9V1XUP2FZCioUrFs6clA6E5LynkEXAqTwVKpchQmm6sKMjGvH2XLiERxVw1lh8bwJAXe2f7k0ZANrAtfPJwQkGZAuZBS1FOvd8MV0IWSgTUUPPkyItJTunhmZAaVOxJVozhq1PyOZCLZBrwZBl5g2OvRiikggBgX9Qjrs1n4lw2tZCYQajRU2wrJIfzqZAU4JwUkBvZBDlQtDPHvD8fMFtiE0QHYoZD";
+const WHATSAPP_TOKEN = process.env.WHATSAPP_TOKEN || "EAA172rea1mEBO0vr9nGljmPpkpinqm8K9pzbjhAZCezEX4XB09VUVzTE7grRSCTBCr2rNZBAc9LSkINIaTZAY1s2PZAQLpVywXz18PX07WK0sbn7XZAB7G4T9wqFy5Ee82F6MGGJxMJwPTn51XqOWYWcemj0CtT9jcEskwRkXe7dzZA4mNbVsrp0wyZC7trBdopmZCthbouv6Uq8pBpO0d6QidxGiZCtGAT0rNq0ZD";
 
 export const handler = async (event: any) => {
   let response;
