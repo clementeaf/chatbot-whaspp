@@ -145,10 +145,9 @@
                   "Effect": "Allow",
                   "Action": [
                     "secretsmanager:GetSecretValue",
-                    "secretsmanager:DescribeSecret",
                     "secretsmanager:PutSecretValue"
                   ],
-                  "Resource": "arn:aws:secretsmanager:us-east-1:992382408780:secret:whatsapp_token-*"
+                  "Resource": "arn:aws:secretsmanager:us-east-1:992382408780:secret:whatsapp_token_v2-*"
                 }
               ]
             }
@@ -177,7 +176,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/whatsapp-bot/dev/1731200322366-2024-11-10T00:58:42.366Z/whatsapp-bot.zip"
+          "S3Key": "serverless/whatsapp-bot/dev/1731282155207-2024-11-10T23:42:35.207Z/whatsapp-bot.zip"
         },
         "Handler": "dist/handler.handler",
         "Runtime": "nodejs16.x",
@@ -189,7 +188,7 @@
             "VERIFY_TOKEN": "clemente",
             "FB_APP_ID": "3795354010703457",
             "FB_APP_SECRET": "6602daa9fb345e976562f6f032a0280",
-            "SECRET_NAME": "whatsapp_token"
+            "SECRET_NAME": "whatsapp_token_v2"
           }
         },
         "Role": {
@@ -210,7 +209,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/whatsapp-bot/dev/1731200322366-2024-11-10T00:58:42.366Z/whatsapp-bot.zip"
+          "S3Key": "serverless/whatsapp-bot/dev/1731282155207-2024-11-10T23:42:35.207Z/whatsapp-bot.zip"
         },
         "Handler": "dist/handler.refreshWhatsAppToken",
         "Runtime": "nodejs16.x",
@@ -222,7 +221,7 @@
             "VERIFY_TOKEN": "clemente",
             "FB_APP_ID": "3795354010703457",
             "FB_APP_SECRET": "6602daa9fb345e976562f6f032a0280",
-            "SECRET_NAME": "whatsapp_token"
+            "SECRET_NAME": "whatsapp_token_v2"
           }
         },
         "Role": {
@@ -236,30 +235,30 @@
         "RefreshTokenJobLogGroup"
       ]
     },
-    "WebhookLambdaVersionmW4OwXdVUnHmlVe8S77nagRjrIXtnw0Jqk7ujqT4": {
+    "WebhookLambdaVersionsriDyozT8cSCxEkDgV7vIpXOZJXJZumoCOQDTmMMpk": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "WebhookLambdaFunction"
         },
-        "CodeSha256": "HYcF4QN0U8ZEn6H2TrJ1MShq0UGeKK1dD0trwoXKyPg="
+        "CodeSha256": "P0IH4kbmnQIyF0UuVlyrqDTFLmfQ449TvhySesMkDMI="
       }
     },
-    "RefreshTokenJobLambdaVersionwMbfRMAOkX7DBK6qno33IWCc2FDVWwhh91Hn2x4Jc": {
+    "RefreshTokenJobLambdaVersionICezVNzrdrUYb2HtymTO9TPteF24Lv9sjnbHbGp37c": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "RefreshTokenJobLambdaFunction"
         },
-        "CodeSha256": "HYcF4QN0U8ZEn6H2TrJ1MShq0UGeKK1dD0trwoXKyPg="
+        "CodeSha256": "P0IH4kbmnQIyF0UuVlyrqDTFLmfQ449TvhySesMkDMI="
       }
     },
     "RefreshTokenJobEventsRuleSchedule1": {
       "Type": "AWS::Events::Rule",
       "Properties": {
-        "ScheduleExpression": "rate(55 days)",
+        "ScheduleExpression": "rate(30 days)",
         "State": "ENABLED",
         "Targets": [
           {
@@ -411,7 +410,7 @@
         "WebhookLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1731200318209": {
+    "ApiGatewayDeployment1731282150547": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -474,7 +473,7 @@
     "WebhookLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "WebhookLambdaVersionmW4OwXdVUnHmlVe8S77nagRjrIXtnw0Jqk7ujqT4"
+        "Ref": "WebhookLambdaVersionsriDyozT8cSCxEkDgV7vIpXOZJXJZumoCOQDTmMMpk"
       },
       "Export": {
         "Name": "sls-whatsapp-bot-dev-WebhookLambdaFunctionQualifiedArn"
@@ -483,7 +482,7 @@
     "RefreshTokenJobLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "RefreshTokenJobLambdaVersionwMbfRMAOkX7DBK6qno33IWCc2FDVWwhh91Hn2x4Jc"
+        "Ref": "RefreshTokenJobLambdaVersionICezVNzrdrUYb2HtymTO9TPteF24Lv9sjnbHbGp37c"
       },
       "Export": {
         "Name": "sls-whatsapp-bot-dev-RefreshTokenJobLambdaFunctionQualifiedArn"

@@ -17,16 +17,42 @@ const https_1 = __importDefault(require("https"));
 const client_secrets_manager_1 = require("@aws-sdk/client-secrets-manager");
 // Configuración de AWS Secrets Manager
 const secretsManager = new client_secrets_manager_1.SecretsManagerClient({ region: "us-east-1" });
-const SECRET_NAME = "EAA172rea1mEBOZCrD58WEvPS80k4CxQPccqSRGelnoc7YIqI4Vjz2zLZB3CDuZBD0ZBZB0GrIC6ZBr5v9gphF9YXWGigzyy59CP1XZCY2GScBfothZBQzVjH5yT6517X1hURKjZBnZC7tjX698VtpZBtTNq32Ch5GiMoZCr9KSPvMucYuIDosW4B7b3VqQ2KpSbFrxFjiZAgvirnhtjKXwtDGeDQnZCzpy362aHhkARVqLGa5H19lFvvLZCaMIZD";
+const SECRET_NAME = "whatsapp_token_v2";
 // Tokens de verificación y acceso
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN || "clemente";
 const FB_APP_ID = process.env.FB_APP_ID;
 const FB_APP_SECRET = process.env.FB_APP_SECRET;
+// Función para obtener el token de WhatsApp desde AWS Secrets Manager
+const getWhatsAppToken = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const command = new client_secrets_manager_1.GetSecretValueCommand({ SecretId: SECRET_NAME, VersionStage: "AWSCURRENT" });
+        console.log('Command: ', JSON.stringify(command, null, 2));
+        const response = yield secretsManager.send(command);
+        console.log('Response: ', JSON.stringify(response, null, 2));
+        if (response.SecretString) {
+            const secret = JSON.parse(response.SecretString);
+            // Actualización aquí para la clave "whatsapp_token"
+            if (secret.whatsapp_token) {
+                return secret.whatsapp_token;
+            }
+            else {
+                throw new Error("La clave 'whatsapp_token' no existe en el secreto.");
+            }
+        }
+        else {
+            throw new Error("El secreto no contiene datos en formato 'SecretString'.");
+        }
+    }
+    catch (error) {
+        console.error("Error al obtener el token de Secrets Manager:", error);
+        throw new Error("No se pudo obtener el token de acceso de WhatsApp.");
+    }
+});
 // Función principal del handler
 const handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
     let response;
     console.log("Evento recibido:", JSON.stringify(event, null, 2));
-    const WHATSAPP_TOKEN = SECRET_NAME;
+    const WHATSAPP_TOKEN = yield getWhatsAppToken();
     if ((event === null || event === void 0 ? void 0 : event.httpMethod) === "GET") {
         const queryParams = event.queryStringParameters;
         if (queryParams) {
@@ -37,7 +63,7 @@ const handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
                 response = {
                     statusCode: 200,
                     headers: { 'Content-Type': 'text/plain' },
-                    body: challenge,
+                    body: challenge || "",
                 };
             }
             else {
@@ -56,7 +82,7 @@ const handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
     }
     else if ((event === null || event === void 0 ? void 0 : event.httpMethod) === "POST") {
         try {
-            const body = JSON.parse(event.body);
+            const body = JSON.parse(event.body || "{}");
             const entries = body.entry;
             for (const entry of entries) {
                 for (const change of entry.changes) {
@@ -67,7 +93,6 @@ const handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
                             if (message.type === "text") {
                                 const from = message.from;
                                 const messageBody = message.text.body.toLowerCase();
-                                // Lógica de respuesta automatizada
                                 let replyMessage;
                                 if (messageBody.includes("hola")) {
                                     replyMessage = "¡Hola! ¿En qué puedo ayudarte?";
@@ -105,7 +130,7 @@ const handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
     else {
         response = {
             statusCode: 405,
-            body: JSON.stringify("Método no permitido"),
+            body: "Método no permitido",
         };
     }
     return response;
@@ -113,7 +138,7 @@ const handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
 exports.handler = handler;
 // Función para renovar el token de larga duración
 const refreshWhatsAppToken = () => __awaiter(void 0, void 0, void 0, function* () {
-    const currentToken = SECRET_NAME;
+    const currentToken = yield getWhatsAppToken();
     const url = `/v12.0/oauth/access_token?grant_type=fb_exchange_token&client_id=${FB_APP_ID}&client_secret=${FB_APP_SECRET}&fb_exchange_token=${currentToken}`;
     const options = {
         hostname: "graph.facebook.com",
@@ -165,7 +190,7 @@ const sendReply = (phoneNumberId, to, replyMessage, token) => {
             res.on("data", (chunk) => (response += chunk));
             res.on("end", () => {
                 console.log("Respuesta de WhatsApp:", response);
-                resolve(response);
+                resolve();
             });
         });
         req.on("error", (e) => {

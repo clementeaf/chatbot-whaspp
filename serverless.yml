@@ -8,7 +8,7 @@ provider:
     VERIFY_TOKEN: "clemente"
     FB_APP_ID: 3795354010703457
     FB_APP_SECRET: "6602daa9fb345e976562f6f032a0280"
-    SECRET_NAME: "whatsapp_token"
+    SECRET_NAME: "whatsapp_token_v2"
 
   iam:
     role:
@@ -16,9 +16,8 @@ provider:
         - Effect: "Allow"
           Action:
             - "secretsmanager:GetSecretValue"
-            - "secretsmanager:DescribeSecret"
-            - "secretsmanager:PutSecretValue"  # Añadido para permitir la actualización del secreto
-          Resource: "arn:aws:secretsmanager:us-east-1:992382408780:secret:whatsapp_token-*"
+            - "secretsmanager:PutSecretValue"
+          Resource: "arn:aws:secretsmanager:us-east-1:992382408780:secret:whatsapp_token_v2-*"
 
 functions:
   webhook:
@@ -32,7 +31,7 @@ functions:
   refreshTokenJob:
     handler: dist/handler.refreshWhatsAppToken
     events:
-      - schedule: rate(55 days)  # Ejecuta la función cada 55 días para renovar el token
+      - schedule: rate(30 days)
 
 plugins:
   - serverless-offline
