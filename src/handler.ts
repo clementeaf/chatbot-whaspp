@@ -1,12 +1,21 @@
 import https from "https";
+import { SecretsManagerClient, GetSecretValueCommand, PutSecretValueCommand } from "@aws-sdk/client-secrets-manager";
+
+// Configuración de AWS Secrets Manager
+const secretsManager = new SecretsManagerClient({ region: "us-east-1" });
+const SECRET_NAME = "EAA172rea1mEBOZCrD58WEvPS80k4CxQPccqSRGelnoc7YIqI4Vjz2zLZB3CDuZBD0ZBZB0GrIC6ZBr5v9gphF9YXWGigzyy59CP1XZCY2GScBfothZBQzVjH5yT6517X1hURKjZBnZC7tjX698VtpZBtTNq32Ch5GiMoZCr9KSPvMucYuIDosW4B7b3VqQ2KpSbFrxFjiZAgvirnhtjKXwtDGeDQnZCzpy362aHhkARVqLGa5H19lFvvLZCaMIZD";
 
 // Tokens de verificación y acceso
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN || "clemente";
-const WHATSAPP_TOKEN = process.env.WHATSAPP_TOKEN || "EAA172rea1mEBO0vr9nGljmPpkpinqm8K9pzbjhAZCezEX4XB09VUVzTE7grRSCTBCr2rNZBAc9LSkINIaTZAY1s2PZAQLpVywXz18PX07WK0sbn7XZAB7G4T9wqFy5Ee82F6MGGJxMJwPTn51XqOWYWcemj0CtT9jcEskwRkXe7dzZA4mNbVsrp0wyZC7trBdopmZCthbouv6Uq8pBpO0d6QidxGiZCtGAT0rNq0ZD";
+const FB_APP_ID = process.env.FB_APP_ID;
+const FB_APP_SECRET = process.env.FB_APP_SECRET;
 
+// Función principal del handler
 export const handler = async (event: any) => {
   let response;
   console.log("Evento recibido:", JSON.stringify(event, null, 2));
+
+  const WHATSAPP_TOKEN = SECRET_NAME;
 
   if (event?.httpMethod === "GET") {
     const queryParams = event.queryStringParameters;
@@ -62,7 +71,7 @@ export const handler = async (event: any) => {
                   replyMessage = `Recibido: ${messageBody}`;
                 }
 
-                await sendReply(phoneNumberId, from, replyMessage);
+                await sendReply(phoneNumberId, from, replyMessage, WHATSAPP_TOKEN);
               }
             }
           }
@@ -89,7 +98,49 @@ export const handler = async (event: any) => {
   return response;
 };
 
-const sendReply = (phoneNumberId: string, to: string, replyMessage: string) => {
+// Función para renovar el token de larga duración
+export const refreshWhatsAppToken = async () => {
+  const currentToken = SECRET_NAME;
+
+  const url = `/v12.0/oauth/access_token?grant_type=fb_exchange_token&client_id=${FB_APP_ID}&client_secret=${FB_APP_SECRET}&fb_exchange_token=${currentToken}`;
+
+  const options = {
+    hostname: "graph.facebook.com",
+    path: url,
+    method: "GET",
+  };
+
+  https.request(options, async (res) => {
+    let data = "";
+    res.on("data", (chunk) => (data += chunk));
+    res.on("end", async () => {
+      const response = JSON.parse(data);
+      if (response.access_token) {
+        const newToken = response.access_token;
+        console.log("Nuevo token de larga duración:", newToken);
+
+        // Actualiza el token en AWS Secrets Manager
+        await secretsManager.send(
+          new PutSecretValueCommand({
+            SecretId: SECRET_NAME,
+            SecretString: JSON.stringify({ WHATSAPP_TOKEN: newToken }),
+          })
+        );
+
+        console.log("Token actualizado en el gestor de secretos.");
+      } else {
+        console.error("Error al renovar el token:", response);
+      }
+    });
+  })
+  .on("error", (error) => {
+    console.error("Error en la solicitud para renovar el token:", error);
+  })
+  .end();
+};
+
+// Función para enviar una respuesta al cliente en WhatsApp
+const sendReply = (phoneNumberId: string, to: string, replyMessage: string, token: string) => {
   return new Promise((resolve, reject) => {
     const messageData = {
       messaging_product: "whatsapp",
@@ -99,7 +150,7 @@ const sendReply = (phoneNumberId: string, to: string, replyMessage: string) => {
 
     const options = {
       host: "graph.facebook.com",
-      path: `/v12.0/${phoneNumberId}/messages?access_token=${WHATSAPP_TOKEN}`,
+      path: `/v12.0/${phoneNumberId}/messages?access_token=${token}`,
       method: "POST",
       headers: { "Content-Type": "application/json" },
     };
